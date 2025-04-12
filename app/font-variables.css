@@ -1,0 +1,9 @@
+/**
+ * Font Variables
+ * 
+ * This file defines CSS variables for fonts used in the application.
+ */
+
+:root {
+  --font-fieldworks: fieldworks, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

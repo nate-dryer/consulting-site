@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base element spacing using theme tokens for sitewide consistency */
+h1 {
+  @apply mb-heading-lg-bottom leading-tight font-heading;
+}
+h2 {
+  @apply mb-heading-md-bottom leading-tight font-heading;
+}
+h3 {
+  @apply mb-heading-sm-bottom leading-tight font-heading;
+}
+h4, h5, h6 {
+  @apply mb-4 leading-tight font-heading;
+}
+p, li {
+  @apply mb-4 leading-normal font-body;
+}
+/* Section and Container padding is handled by the Layout components */
+/* Card and form element spacing */
+.card {
+  @apply p-card-inner;
+}
+.card-grid {
+  @apply gap-card-gap;
+}
+/* Form and Button spacing should be handled within specific components */
+input,
+textarea {
+  @apply p-input-padding; /* Keep input padding for consistency */
+}

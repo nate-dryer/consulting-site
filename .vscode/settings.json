@@ -1,0 +1,16 @@
+{
+  "terminal.integrated.defaultLocation": "view",
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  "terminal.integrated.shellIntegration.timeout": 30000,
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.shellIntegration.decorationsEnabled": "both",
+  "terminal.integrated.persistentSessionReviveProcess": "never",
+  "terminal.integrated.env.osx": {
+    "TERM_PROGRAM": "vscode"
+  },
+  "accessibility.signals.terminalBell": {
+    "sound": "off"
+  },
+  "terminal.integrated.enableVisualBell": false
+}

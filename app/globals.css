@@ -1,26 +1,172 @@
-@import "tailwindcss";
+/**
+ * Tailwind CSS Imports
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/**
+ * STYLING STRATEGY
+ *
+ * This project is transitioning to a more utility-first approach with Tailwind CSS.
+ *
+ * Current approach:
+ * 1. Essential component styles remain in @layer components for backward compatibility
+ * 2. New components should use Tailwind utility classes directly in JSX/TSX
+ * 3. Existing components should gradually be refactored to use utility classes
+ *
+ * Example of utility-first approach:
+ * Instead of: <div className="card">...</div>
+ * Use: <div className="bg-white rounded-lg shadow-md transition-all duration-300 p-8 hover:shadow-lg hover:-translate-y-0.5">...</div>
+ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/**
+ * Font Configuration
+ *
+ * The Fieldworks font is loaded from Typekit (Adobe Fonts) using the stylesheet:
+ * https://use.typekit.net/ebn1ntn.css
+ *
+ * Font application is now simplified:
+ * 1. The Typekit stylesheet is loaded in the root layout component (app/layout.tsx)
+ * 2. The font-fieldworks class is applied to the body element in app/layout.tsx
+ * 3. The fontFamily configuration in tailwind.config.js defines the font stack
+ *
+ * This approach reduces redundancy and relies on a single source of truth (Tailwind config)
+ * while maintaining consistent font application throughout the application.
+ */
 
-@media (prefers-color-scheme: dark) {
+/**
+ * Base Styles
+ * Core styles that apply to the entire application
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+  }
+
+  /* Fix for vertical-align warnings */
+  img,
+  svg {
+    vertical-align: middle;
+  }
+
+  /* Accessibility: Respect user preferences for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/**
+ * Component Styles
+ *
+ * REFACTORING COMPLETED:
+ * All component styles have been refactored to use Tailwind utility classes directly in JSX/TSX.
+ * The following components have been created to replace these custom classes:
+ *
+ * - Button.tsx: Replaces button classes
+ * - Typography.tsx: Replaces typography classes
+ * - Layout.tsx: Replaces layout classes
+ * - Card.tsx: Replaces card classes
+ * - Form.tsx: Replaces form classes
+ * - Background.tsx: Replaces background classes
+ * - animations/: Replaces animation classes
+ *
+ * If you need to add new styles, prefer using Tailwind utility classes directly in JSX/TSX.
+ * Only add custom CSS here if it cannot be achieved with Tailwind.
+ */
+@layer components {
+}
+
+/**
+ * Custom Utilities
+ * Additional utility classes that extend Tailwind's functionality
+ *
+ * REFACTORING COMPLETED:
+ * All custom utilities have been refactored to use Tailwind utility classes directly in JSX/TSX.
+ * The following components have been created to replace these custom classes:
+ *
+ * - Typography.tsx: Replaces typography classes with responsive variants
+ * - Card.tsx: Replaces hover effect classes
+ *
+ * If you need to add new utilities, prefer using Tailwind utility classes directly in JSX/TSX.
+ * Only add custom CSS here if it cannot be achieved with Tailwind.
+ */
+@layer utilities {
+}
+/*---break---
+ */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

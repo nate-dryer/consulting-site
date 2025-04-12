@@ -43,17 +43,20 @@ Each step card follows this simplified structure:
 
 ## Framer Motion Animation
 
-The section uses Framer Motion for scroll-triggered animations:
+The section uses Framer Motion for scroll-triggered animations with a parallax-like effect:
 
-- **Animation Pattern**: Cards fade in as the user scrolls for consistent vertical alignment
+- **Animation Pattern**: Cards slide in from alternating directions as the user scrolls
+  - Odd-numbered steps (1, 3): Slide in from the left
+  - Even-numbered steps (2, 4): Slide in from the right
 - **Staggered Delays**: Each card has a progressively increasing delay
   - Step 1: 0s delay
   - Step 2: 0.1s delay
   - Step 3: 0.2s delay
   - Step 4: 0.3s delay
-- **Viewport Trigger**: Animation starts when 30% of the card is visible
-- **Animation Duration**: 0.6s with ease-out easing
+- **Viewport Trigger**: Animation starts when 10% of the card is visible, with a negative margin to ensure animations trigger only when scrolling down to the section
+- **Animation Duration**: 0.6s with ease-out easing (0.4s on mobile)
 - **Reduced Motion**: Respects user's reduced motion preferences
+- **Parallax Effect**: The alternating directions create a dynamic, engaging visual flow as users scroll through the section
 
 ## Responsive Behavior
 

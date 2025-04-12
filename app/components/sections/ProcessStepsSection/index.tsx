@@ -10,6 +10,8 @@ import {
   CARD_PADDING_MD,
 } from "../../../constants/design";
 import FadeIn from "../../animations/FadeIn";
+import SlideInLeft from "../../animations/SlideInLeft";
+import SlideInRight from "../../animations/SlideInRight";
 import { Section, Container, SectionHeader } from "../../Layout";
 import { HeadingLG, SectionDescription } from "../../Typography";
 
@@ -22,6 +24,7 @@ type StepCardProps = {
   description: string;
   delay?: number;
   colorVariant?: string;
+  direction?: "left" | "right";
 };
 
 /**
@@ -29,8 +32,9 @@ type StepCardProps = {
  *
  * A card displaying a process step with a number, title, and description.
  * Updated to match the target design with a vertical card layout and consistent styling.
+ * Now with directional slide-in animations for a parallax-like effect.
  */
-function StepCard({ number, title, description, delay = 0, colorVariant }: StepCardProps) {
+function StepCard({ number, title, description, delay = 0, colorVariant, direction = "left" }: StepCardProps) {
   // Define color variations based on step number or provided variant
   const getColorClasses = () => {
     // Use specific colors for each step to match the original design
@@ -72,14 +76,14 @@ function StepCard({ number, title, description, delay = 0, colorVariant }: StepC
 
   const colors = getColorClasses();
 
-  // Use FadeIn for consistent vertical alignment
-  const AnimationWrapper = FadeIn;
+  // Use SlideInLeft or SlideInRight based on the direction prop
+  const AnimationWrapper = direction === "left" ? SlideInLeft : SlideInRight;
 
   return (
     <AnimationWrapper
       className={`${colors.bgColor} ${CARD_RADIUS} ${SHADOW_DEFAULT} ${SHADOW_HOVER} ${TRANSITION_DEFAULT} ${HOVER_LIFT} ${CARD_PADDING} ${CARD_PADDING_MD} group h-full flex flex-col border border-gray-100 space-y-4`}
       delay={delay * 1000} // Convert to milliseconds for consistency with other components
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.1, margin: "0px 0px -200px 0px" }}
     >
       {/* Circle with number */}
       <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto rounded-full transition-transform duration-300 group-hover:scale-110">
@@ -155,7 +159,7 @@ export default function ProcessStepsSection() {
           </FadeIn>
         </SectionHeader>
 
-        {/* Vertical cards with alternating animations - centered on all devices */}
+        {/* Cards with alternating slide-in animations - centered on all devices */}
         {/* Removed pb-* as Section handles bottom padding. Added mt-heading-lg-bottom for space below header */}
         <div className="flex flex-col items-center gap-card-gap w-full max-w-md mx-auto px-4">
           {steps.map((step) => (
@@ -165,6 +169,7 @@ export default function ProcessStepsSection() {
               title={step.title}
               description={step.description}
               delay={step.delay}
+              direction={step.number % 2 === 0 ? "right" : "left"} // Even numbers from right, odd from left
             />
           ))}
         </div>

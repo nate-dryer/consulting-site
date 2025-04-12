@@ -29,11 +29,18 @@ const MotionWrapper = memo(function MotionWrapper({
   variants,
   className = "",
   delay = 0,
-  viewport = { once: true, margin: "0px 0px -120px 0px", amount: 0.1 },
+  viewport = { once: false, margin: "0px 0px -120px 0px", amount: 0.1 },
   ...props
 }: MotionWrapperProps) {
   // Memoize the transition first to ensure hooks are called in the same order
-  const transition = useMemo(() => ({ delay: delay / 1000 }), [delay]); // Convert ms to seconds
+  const transition = useMemo(() => ({ 
+    delay: delay / 1000,
+    // Add will-change hint for better performance
+    willChange: "opacity, transform",
+    // Make animations more responsive
+    duration: 0.3, // Faster duration for more responsive feel
+    ease: [0.25, 0.1, 0.25, 1], // Smooth cubic bezier curve
+  }), [delay]); // Convert ms to seconds
 
   const prefersReducedMotion = useReducedMotion();
 
@@ -47,9 +54,17 @@ const MotionWrapper = memo(function MotionWrapper({
       className={className}
       initial="hidden"
       whileInView="visible"
+      exit="hidden" // Add exit animation
       viewport={viewport}
       variants={variants}
       transition={transition}
+      style={{
+        // Force hardware acceleration for smoother animations
+        WebkitBackfaceVisibility: "hidden",
+        WebkitPerspective: "1000",
+        WebkitTransform: "translate3d(0,0,0)",
+        WebkitTransformStyle: "preserve-3d",
+      }}
       {...props}
     >
       {children}

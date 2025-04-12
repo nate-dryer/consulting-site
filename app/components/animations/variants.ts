@@ -8,7 +8,7 @@ import { Variants } from "framer-motion";
 
 // Default transition settings
 export const defaultTransition = {
-  duration: 0.4,
+  duration: 0.3, // Faster for more responsive feel
   ease: [0.25, 0.1, 0.25, 1], // Cubic bezier for smooth easing
 };
 
@@ -17,11 +17,18 @@ export const fadeIn: Variants = {
   hidden: {
     opacity: 0,
     y: 20,
+    transition: {
+      ...defaultTransition,
+      duration: 0.25, // Even faster exit animation for better responsiveness
+    }
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: defaultTransition,
+    transition: {
+      ...defaultTransition,
+      duration: 0.3, // Slightly faster for more responsive feel
+    },
   },
 };
 
@@ -29,8 +36,12 @@ export const fadeIn: Variants = {
 export const slideInLeft: Variants = {
   hidden: {
     opacity: 0,
-    x: typeof window !== "undefined" && window.innerWidth < 768 ? -30 : -60, // Reduced distance for mobile
+    x: typeof window !== "undefined" && window.innerWidth < 768 ? -30 : -50, // Slightly reduced distance for better performance
     scale: 0.98, // Slight scale effect for more dynamic animation
+    transition: {
+      ...defaultTransition,
+      duration: 0.25, // Even faster exit animation for better responsiveness
+    }
   },
   visible: {
     opacity: 1,
@@ -38,7 +49,7 @@ export const slideInLeft: Variants = {
     scale: 1,
     transition: {
       ...defaultTransition,
-      duration: typeof window !== "undefined" && window.innerWidth < 768 ? 0.4 : 0.6, // Faster on mobile
+      duration: typeof window !== "undefined" && window.innerWidth < 768 ? 0.3 : 0.4, // Faster for more responsive feel
     },
   },
 };
@@ -47,8 +58,12 @@ export const slideInLeft: Variants = {
 export const slideInRight: Variants = {
   hidden: {
     opacity: 0,
-    x: typeof window !== "undefined" && window.innerWidth < 768 ? 30 : 60, // Reduced distance for mobile
+    x: typeof window !== "undefined" && window.innerWidth < 768 ? 30 : 50, // Slightly reduced distance for better performance
     scale: 0.98, // Slight scale effect for more dynamic animation
+    transition: {
+      ...defaultTransition,
+      duration: 0.25, // Even faster exit animation for better responsiveness
+    }
   },
   visible: {
     opacity: 1,
@@ -56,7 +71,7 @@ export const slideInRight: Variants = {
     scale: 1,
     transition: {
       ...defaultTransition,
-      duration: typeof window !== "undefined" && window.innerWidth < 768 ? 0.4 : 0.6, // Faster on mobile
+      duration: typeof window !== "undefined" && window.innerWidth < 768 ? 0.3 : 0.4, // Faster for more responsive feel
     },
   },
 };

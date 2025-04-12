@@ -1,190 +1,118 @@
 # Animation Components
 
-This directory contains reusable animation components that use Framer Motion to provide smooth, accessible animations. These components respect the user's motion preferences and provide a consistent animation experience throughout the application.
+This directory contains reusable animation components that leverage Framer Motion to create smooth, performant animations throughout the application.
 
-## Available Components
+## Overview
 
-### FadeIn
+The animation system provides several ways to add animations to your components:
 
-The `FadeIn` component fades in its children when they enter the viewport.
+1. **Basic Animation Components** - Simple components like `FadeIn`, `SlideInLeft`, and `SlideInRight` that animate elements when they enter the viewport
+2. **Scroll-Based Animations** - Components that animate based on scroll position, including entering and exiting animations
+3. **Performance-Optimized Components** - Enhanced versions that adapt to device capabilities and user preferences
 
-```tsx
-import FadeIn from '../animations/FadeIn';
+## Components
 
-// Basic usage
-<FadeIn>
-  <p>This content will fade in when scrolled into view</p>
-</FadeIn>
+### Basic Animation Components
 
-// With delay
-<FadeIn delay={200}>
-  <p>This content will fade in with a delay</p>
-</FadeIn>
+- `FadeIn` - Fades in elements when they enter the viewport
+- `SlideInLeft` - Slides elements in from the left when they enter the viewport
+- `SlideInRight` - Slides elements in from the right when they enter the viewport
+- `StaggerContainer` - Container that staggers the animations of its children
 
-// With custom duration
-<FadeIn duration={0.5}>
-  <p>This content will fade in faster</p>
-</FadeIn>
+### Scroll-Based Animation Components
 
-// With custom threshold
-<FadeIn threshold={0.2}>
-  <p>This content will fade in earlier</p>
-</FadeIn>
-```
+- `ScrollAnimatedCard` - Animates elements based on scroll position (original implementation)
+- `EnhancedScrollAnimatedCard` - Improved version with better performance and continuous animations
 
-### SlideInLeft
+### Utility Components
 
-The `SlideInLeft` component slides in its children from the left when they enter the viewport.
+- `MotionWrapper` - Base component that all animation components use internally
+- `ScrollAnimationsInit` - Initializes Framer Motion's animation features with lazy loading
 
-```tsx
-import SlideInLeft from '../animations/SlideInLeft';
+## Hooks
 
-// Basic usage
-<SlideInLeft>
-  <p>This content will slide in from the left when scrolled into view</p>
-</SlideInLeft>
+The animation system includes several custom hooks:
 
-// With delay
-<SlideInLeft delay={200}>
-  <p>This content will slide in with a delay</p>
-</SlideInLeft>
-```
+- `useReducedMotion` - Detects if the user prefers reduced motion
+- `useScrollAnimation` - Provides motion values for scroll-based animations (original implementation)
+- `useEnhancedScrollAnimation` - Improved version with better performance and device adaptation
 
-### SlideInRight
+## Usage
 
-The `SlideInRight` component slides in its children from the right when they enter the viewport.
+### Basic Animation Example
 
 ```tsx
-import SlideInRight from '../animations/SlideInRight';
+import FadeIn from "@/app/components/animations/FadeIn";
 
-// Basic usage
-<SlideInRight>
-  <p>This content will slide in from the right when scrolled into view</p>
-</SlideInRight>
-
-// With delay
-<SlideInRight delay={200}>
-  <p>This content will slide in with a delay</p>
-</SlideInRight>
-```
-
-### StaggerContainer
-
-The `StaggerContainer` component staggers the animations of its children.
-
-```tsx
-import StaggerContainer from '../animations/StaggerContainer';
-import FadeIn from '../animations/FadeIn';
-
-// Basic usage
-<StaggerContainer>
-  <FadeIn>First item</FadeIn>
-  <FadeIn>Second item</FadeIn>
-  <FadeIn>Third item</FadeIn>
-</StaggerContainer>
-
-// With custom stagger delay
-<StaggerContainer staggerDelay={0.1}>
-  <FadeIn>First item</FadeIn>
-  <FadeIn>Second item</FadeIn>
-  <FadeIn>Third item</FadeIn>
-</StaggerContainer>
-```
-
-### MotionWrapper
-
-The `MotionWrapper` component is a low-level component for custom animations.
-
-```tsx
-import MotionWrapper from '../animations/MotionWrapper';
-import { fadeIn } from '../animations/variants';
-
-// Basic usage with predefined variant
-<MotionWrapper variants={fadeIn}>
-  <p>This content will use the fadeIn animation</p>
-</MotionWrapper>
-
-// With custom variants
-<MotionWrapper
-  initial={{ opacity: 0, scale: 0.8 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 0.5 }}
->
-  <p>This content will use custom animation properties</p>
-</MotionWrapper>
-```
-
-## Animation Variants
-
-The animation variants are defined in `variants.ts` and provide consistent animation properties across the application.
-
-```tsx
-import { fadeIn, slideInLeft, slideInRight, staggerContainer } from "../animations/variants";
-import { motion } from "framer-motion";
-
-// Using variants with motion components
-<motion.div variants={fadeIn} initial="hidden" animate="visible">
-  <p>This content will fade in</p>
-</motion.div>;
-```
-
-## Accessibility
-
-All animation components respect the user's motion preferences by using the `useReducedMotion` hook. If the user has enabled the "reduce motion" setting in their operating system, the animations will be disabled or simplified.
-
-```tsx
-import useReducedMotion from "../../utils/hooks/useReducedMotion";
-
-function MyComponent() {
-  const prefersReducedMotion = useReducedMotion();
-
-  // Use prefersReducedMotion to conditionally apply animations
-  const animationProps = prefersReducedMotion
-    ? {}
-    : {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.5 },
-      };
-
+export default function MyComponent() {
   return (
-    <motion.div {...animationProps}>
-      <p>This content respects the user's motion preferences</p>
-    </motion.div>
+    <FadeIn>
+      <p>This content will fade in when it enters the viewport</p>
+    </FadeIn>
   );
 }
 ```
 
-## Best Practices
+### Scroll-Based Animation Example
 
-1. **Always Use useReducedMotion**:
+```tsx
+import EnhancedScrollAnimatedCard from "@/app/components/animations/EnhancedScrollAnimatedCard";
 
-   - Always respect the user's motion preferences
-   - Use the `useReducedMotion` hook to conditionally apply animations
+export default function MyComponent() {
+  return (
+    <EnhancedScrollAnimatedCard 
+      direction="left" 
+      intensity="medium"
+      className="my-4"
+    >
+      <div className="p-4 bg-white rounded shadow">
+        <h2>This card will animate as you scroll</h2>
+        <p>It will slide in from the left when entering the viewport and slide out when leaving</p>
+      </div>
+    </EnhancedScrollAnimatedCard>
+  );
+}
+```
 
-2. **Keep Animations Subtle**:
+## Configuration
 
-   - Avoid excessive or distracting animations
-   - Use animations to enhance the user experience, not distract from it
+### Animation Variants
 
-3. **Use Consistent Animation Properties**:
+Animation variants are defined in `variants.ts` and include:
 
-   - Use the predefined animation variants whenever possible
-   - This ensures a consistent animation experience throughout the application
+- `fadeIn` - Fade in animation
+- `slideInLeft` - Slide in from left animation
+- `slideInRight` - Slide in from right animation
+- `staggerContainer` - Staggered children animation
+- `scaleOnHover` - Scale animation for hover effects
+- `liftOnHover` - Lift animation for hover effects
 
-4. **Optimize Performance**:
+### EnhancedScrollAnimatedCard Props
 
-   - Use the `will-change` CSS property sparingly
-   - Use the `layout` prop for layout animations
-   - Use the `layoutId` prop for shared element transitions
+The `EnhancedScrollAnimatedCard` component accepts the following props:
 
-5. **Test on Low-End Devices**:
-   - Ensure animations perform well on low-end devices
-   - Consider disabling animations on low-end devices
+- `direction` - The direction from which the element should animate ("left" or "right")
+- `intensity` - The intensity of the animation ("low", "medium", or "high")
+- `performanceMode` - Whether to enable performance mode for lower-end devices
+- `className` - Additional CSS classes to apply to the component
+- All other props are passed to the underlying `motion.div` component
 
-## Further Reading
+## Performance Considerations
 
-- [Framer Motion Documentation](https://www.framer.com/motion/)
-- [Accessibility in Framer Motion](https://www.framer.com/motion/accessibility/)
-- [Animation Best Practices](https://web.dev/animations-guide/)
-- [Respecting User Preferences](https://web.dev/prefers-reduced-motion/)
+The animation system includes several performance optimizations:
+
+1. **Reduced Motion Support** - All animations respect the user's preference for reduced motion
+2. **Device Capability Detection** - The `useEnhancedScrollAnimation` hook detects device capabilities and adjusts animations accordingly
+3. **Memoization** - Components and hooks use memoization to reduce unnecessary re-renders
+4. **Will-Change Hint** - The `will-change` CSS property is used to hint to the browser which properties will change
+5. **Lazy Loading** - Framer Motion features are lazy-loaded using `LazyMotion`
+
+## Accessibility
+
+All animation components respect the user's preference for reduced motion. If the user has enabled the "reduce motion" setting in their operating system, animations will be disabled or simplified.
+
+## Implementation Notes
+
+- The `once: false` setting in `MotionWrapper` allows animations to trigger again when elements leave and re-enter the viewport
+- The `exit` animation state is used to animate elements when they leave the viewport
+- The `useEnhancedScrollAnimation` hook provides a more flexible and performant way to create scroll-based animations

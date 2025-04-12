@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion"; // Import motion hooks
+import EnhancedScrollAnimatedCard from "../animations/EnhancedScrollAnimatedCard";
 
 import FadeIn from "../animations/FadeIn";
 // Removed SlideInLeft and SlideInRight imports
@@ -98,33 +98,19 @@ export default function ProcessStepsSection() {
               };
               // Removed AnimationComponent
 
-              // --- Parallax Scroll Animation ---
-              const targetRef = useRef<HTMLDivElement>(null);
-              const { scrollYProgress } = useScroll({
-                target: targetRef,
-                offset: ["start end", "end start"] // Animate as element passes through viewport
-              });
-
-              // Map scroll progress (0 to 1) to x translation (-50% to 0% or 50% to 0%)
-              const x = useTransform(
-                scrollYProgress,
-                [0, 0.5, 1], // Adjust input range if needed for timing
-                isOnLeft ? ["-50%", "0%", "0%"] : ["50%", "0%", "0%"] // Slide in and stay
-              );
-              // --- End Parallax Scroll Animation ---
+              // No need for manual scroll animation setup - using EnhancedScrollAnimatedCard
 
 
               return (
                 <div
                   key={step.number}
-                  ref={targetRef} // Add ref to the target element for useScroll
                   className={`grid grid-cols-2 gap-8 ${!isOnLeft ? "direction-rtl" : "direction-ltr"}`}
                 >
-                  {/* Removed AnimationComponent wrapper */}
-                  <div className={!isOnLeft ? "col-start-2" : "col-start-1"}>uv pip install gradio python-dotenv
-                      <motion.div
-                        style={{ x }} // Apply the transformed x value
+                  <div className={!isOnLeft ? "col-start-2" : "col-start-1"}>
+                      <EnhancedScrollAnimatedCard
+                        direction={isOnLeft ? "left" : "right"}
                         className="w-full"
+                        intensity="medium"
                       >
                         <MotionCard
                           className={`${colors.bgColor} border ${colors.borderColor} max-w-[95%] ${isOnLeft ? 'mr-auto' : 'ml-auto'}`} // Removed default padding p-8
@@ -159,7 +145,7 @@ export default function ProcessStepsSection() {
                           </div>
                         )}
                       </MotionCard>
-                      </motion.div>
+                      </EnhancedScrollAnimatedCard>
                   </div>
                 </div>
               );

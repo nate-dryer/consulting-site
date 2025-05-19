@@ -1,6 +1,8 @@
 # AI Consulting Website
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Project Overview
+
+This repository contains the source code for an AI Consulting website. The website aims to showcase AI automation services, explain the process involved, and encourage potential clients to get in touch. It is built using [Next.js](https://nextjs.org/) and includes various features for performance, accessibility, and code quality.
 
 ## Getting Started
 
